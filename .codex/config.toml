@@ -1,0 +1,4 @@
+
+[mcp_servers.databricks]
+command = "/home/hazem/.ai-dev-kit/.venv/bin/python"
+args = ["/home/hazem/.ai-dev-kit/repo/databricks-mcp-server/run_server.py"]

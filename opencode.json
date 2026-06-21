@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "databricks": {
+      "type": "local",
+      "command": [
+        "/home/hazem/.ai-dev-kit/.venv/bin/python",
+        "/home/hazem/.ai-dev-kit/repo/databricks-mcp-server/run_server.py"
+      ],
+      "environment": {
+        "DATABRICKS_CONFIG_PROFILE": "DEFAULT"
+      },
+      "enabled": true
+    }
+  }
+}
