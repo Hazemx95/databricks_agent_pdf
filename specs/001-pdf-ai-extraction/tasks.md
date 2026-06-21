@@ -58,16 +58,16 @@ databricks/
 **Independent test**: MCP runs a command inside the workspace, `pdf_input.txt` is readable,
 `raw_pdfs/` exists with any staged PDFs listed, and no secret file is tracked by Git.
 
-- [ ] T001 Create repo scaffolding directories `databricks/sql/`, `databricks/sql/checks/`, `databricks/notebooks/`, `databricks/lib/` at repository root
-- [ ] T002 [P] Create `.databrickscfg.example` at repository root with placeholder-only values (no real host/token); document the `DEFAULT` profile shape
-- [ ] T003 [P] Add/confirm `.gitignore` entries for `.databrickscfg`, `*.token`, and secret files; verify `git status` does NOT list `.databrickscfg` (PLAN.md §4; Principle III)
-- [ ] T004 Verify `.databrickscfg` exists locally and profile `DEFAULT` is present (local check only; do not print token contents)
-- [ ] T005 Verify MCP connects to the Databricks workspace via MCP `get_current_user` / `list_compute`; confirm it reaches host `dbc-25b231f6-50…`
-- [ ] T006 Execute a simple in-workspace command via MCP `execute_sql` (e.g. `SELECT current_catalog(), current_user()`) and confirm it ran inside Databricks, not locally
-- [ ] T007 [P] Validate catalog `databricks_arrow_cata` and schema `databricks_arrow_cata.main` exist via MCP `execute_sql` (`SHOW SCHEMAS IN databricks_arrow_cata LIKE 'main'`)
-- [ ] T008 [P] Validate Volume `databricks_arrow_cata.main.pdf_ai` and that input file `/Volumes/databricks_arrow_cata/main/pdf_ai/input_urls/pdf_input.txt` is readable, via MCP `get_volume_folder_details` / volume file tools
-- [ ] T009 [P] Validate raw PDF folder `/Volumes/databricks_arrow_cata/main/pdf_ai/raw_pdfs/` exists and **list manually staged PDFs** already uploaded there (capture filenames for US2 matching)
-- [ ] T010 [P] Validate optional debug folder `/Volumes/databricks_arrow_cata/main/pdf_ai/debug/`; create it if missing (never touch `raw_pdfs/` contents)
+- [X] T001 Create repo scaffolding directories `databricks/sql/`, `databricks/sql/checks/`, `databricks/notebooks/`, `databricks/lib/` at repository root
+- [X] T002 [P] Create `.databrickscfg.example` at repository root with placeholder-only values (no real host/token); document the `DEFAULT` profile shape
+- [X] T003 [P] Add/confirm `.gitignore` entries for `.databrickscfg`, `*.token`, and secret files; verify `git status` does NOT list `.databrickscfg` (PLAN.md §4; Principle III)
+- [X] T004 Verify `.databrickscfg` exists locally and profile `DEFAULT` is present (local check only; do not print token contents)
+- [X] T005 Verify MCP connects to the Databricks workspace via MCP `get_current_user` / `list_compute`; confirm it reaches host `dbc-25b231f6-50…`
+- [X] T006 Execute a simple in-workspace command via MCP `execute_sql` (e.g. `SELECT current_catalog(), current_user()`) and confirm it ran inside Databricks, not locally
+- [X] T007 [P] Validate catalog `databricks_arrow_cata` and schema `databricks_arrow_cata.main` exist via MCP `execute_sql` (`SHOW SCHEMAS IN databricks_arrow_cata LIKE 'main'`)
+- [X] T008 [P] Validate Volume `databricks_arrow_cata.main.pdf_ai` and that input file `/Volumes/databricks_arrow_cata/main/pdf_ai/input_urls/pdf_input.txt` is readable, via MCP `get_volume_folder_details` / volume file tools
+- [X] T009 [P] Validate raw PDF folder `/Volumes/databricks_arrow_cata/main/pdf_ai/raw_pdfs/` exists and **list manually staged PDFs** already uploaded there (capture filenames for US2 matching)
+- [X] T010 [P] Validate optional debug folder `/Volumes/databricks_arrow_cata/main/pdf_ai/debug/`; create it if missing (never touch `raw_pdfs/` contents)
 - [ ] T011 Record Phase 1 validation results (catalog/schema/volume/paths/staged-file list, runtime version for `ai_parse_document` DBR 17.1+, and the `ai_query` model endpoint name) in `databricks/sql/checks/01_setup_checks.sql` as commented evidence
 
 **Checkpoint**: Workspace reachable via MCP, all UC paths confirmed, secrets safe. Stop & validate.
