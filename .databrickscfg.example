@@ -1,0 +1,6 @@
+[DEFAULT]
+host = https://<your-databricks-workspace-host>
+token = <your-databricks-token>
+
+# Copy this file to ~/.databrickscfg or .databrickscfg and replace placeholders locally.
+# Never commit real hosts, tokens, PATs, passwords, or secrets.
