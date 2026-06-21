@@ -117,10 +117,10 @@ metadata, and register one control-table row per cleaned URL (PLAN.md Phase 4, �
 **Independent test**: At least one row reaches `DOWNLOADED` or `MANUALLY_STAGED` with `local_pdf_path`
 set; download failures logged as `DOWNLOAD_FAILED`; no existing `raw_pdfs/` file deleted.
 
-- [ ] T021 [US2] Create notebook `databricks/notebooks/02_acquire_pdfs.py` that selects `input_status = NEW` rows **limited to 1** for the first batch (parameterized batch size, default 1, max 5)
-- [ ] T022 [US2] In `02_acquire_pdfs.py`, Mode 1: attempt download, save to `raw_pdfs/` with deterministic name `{doc_id}_{url_hash}_{source_file_name}`, set `local_pdf_path`, transition `NEW → DOWNLOADING → DOWNLOADED`; on failure set `DOWNLOAD_FAILED` + `error_message` and continue (never stop batch); write `DOWNLOAD_PDF` audit rows
-- [ ] T023 [US2] In `02_acquire_pdfs.py`, Mode 2: detect PDFs already in `raw_pdfs/` and match to control rows by deterministic name → `source_file_name` → `url_part_hint` → available filename metadata; set matched rows `MANUALLY_STAGED` with `local_pdf_path`; preserve unmatched staged files as staged records processed with available metadata; never delete existing files; write `STAGE_PDF` audit rows
-- [ ] T024 [US2] Create `databricks/sql/checks/05_acquire_check.sql` and run via MCP: confirm ≥1 row has `local_pdf_path` and status `DOWNLOADED`/`MANUALLY_STAGED`, list `DOWNLOAD_FAILED` rows with errors, and verify staged-file count in `raw_pdfs/` is unchanged or higher (never lower) (SC-003, SC-007)
+- [X] T021 [US2] Create notebook `databricks/notebooks/02_acquire_pdfs.py` that selects `input_status = NEW` rows **limited to 1** for the first batch (parameterized batch size, default 1, max 5)
+- [X] T022 [US2] In `02_acquire_pdfs.py`, Mode 1: attempt download, save to `raw_pdfs/` with deterministic name `{doc_id}_{url_hash}_{source_file_name}`, set `local_pdf_path`, transition `NEW → DOWNLOADING → DOWNLOADED`; on failure set `DOWNLOAD_FAILED` + `error_message` and continue (never stop batch); write `DOWNLOAD_PDF` audit rows
+- [X] T023 [US2] In `02_acquire_pdfs.py`, Mode 2: detect PDFs already in `raw_pdfs/` and match to control rows by deterministic name → `source_file_name` → `url_part_hint` → available filename metadata; set matched rows `MANUALLY_STAGED` with `local_pdf_path`; preserve unmatched staged files as staged records processed with available metadata; never delete existing files; write `STAGE_PDF` audit rows
+- [X] T024 [US2] Create `databricks/sql/checks/05_acquire_check.sql` and run via MCP: confirm ≥1 row has `local_pdf_path` and status `DOWNLOADED`/`MANUALLY_STAGED`, list `DOWNLOAD_FAILED` rows with errors, and verify staged-file count in `raw_pdfs/` is unchanged or higher (never lower) (SC-003, SC-007)
 
 **Checkpoint**: ≥1 PDF available via either mode; failures logged. Stop & validate before US3.
 

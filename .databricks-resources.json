@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "resources": [
+    {
+      "type": "job",
+      "name": "pdf_ai_phase5_acquire_pdfs_poc",
+      "id": "179384671293468",
+      "created_at": "2026-06-21T21:21:46.903406+00:00",
+      "updated_at": "2026-06-21T21:21:46.903406+00:00"
+    }
+  ]
+}
