@@ -81,9 +81,9 @@ depends on (PLAN.md Phase 3, §6–§7, §11, §14, §16; constitution Principle
 
 **⚠️ No user story can start until this phase is complete.**
 
-- [ ] T012 Create `databricks/sql/00_create_tables.sql` mirroring [contracts/tables.sql](./contracts/tables.sql) — idempotent `CREATE TABLE IF NOT EXISTS` for `pdf_input_urls`, `pdf_parsed_documents`, `datasheet_extraction_results`, `pdf_extraction_audit` with exact PLAN.md columns/types; do NOT drop or delete existing data
-- [ ] T013 Execute `databricks/sql/00_create_tables.sql` via MCP `execute_sql` to create/validate all four tables in `databricks_arrow_cata.main`
-- [ ] T014 Create `databricks/sql/checks/03_tables_check.sql` and run it via MCP: confirm all four tables exist, are queryable, and column names/types match PLAN.md (use `get_table_stats_and_schema`)
+- [X] T012 Create `databricks/sql/00_create_tables.sql` mirroring [contracts/tables.sql](./contracts/tables.sql) — idempotent `CREATE TABLE IF NOT EXISTS` for `pdf_input_urls`, `pdf_parsed_documents`, `datasheet_extraction_results`, `pdf_extraction_audit` with exact PLAN.md columns/types; do NOT drop or delete existing data
+- [X] T013 Execute `databricks/sql/00_create_tables.sql` via MCP `execute_sql` to create/validate all four tables in `databricks_arrow_cata.main`
+- [X] T014 Create `databricks/sql/checks/03_tables_check.sql` and run it via MCP: confirm all four tables exist, are queryable, and column names/types match PLAN.md (use `get_table_stats_and_schema`)
 - [ ] T015 Create `databricks/lib/pipeline_common.py` with shared helpers: URL extraction/cleaning (href + plain, strip trailing `, ; ) (` + whitespace), exact-dedup, metadata derivation (`source_file_name`, `supplier_folder` ending in `_`, `url_part_hint`), deterministic name builder `{doc_id}_{url_hash}_{source_file_name}`, status/step constants, and an `audit_writer` that appends rows to `pdf_extraction_audit` per [contracts/audit_contract.md](./contracts/audit_contract.md)
 
 **Checkpoint**: Tables exist & match schema; shared helpers + audit writer available. Stop & validate.
@@ -98,11 +98,11 @@ metadata, and register one control-table row per cleaned URL (PLAN.md Phase 4, �
 **Independent test**: `pdf_input_urls` has one `NEW` row per unique cleaned URL, duplicates marked
 `SKIPPED_DUPLICATE`, bad lines `INVALID_URL`, `source_url` preserved, metadata populated.
 
-- [ ] T016 [US1] Create notebook `databricks/notebooks/01_load_urls.py` that reads the full contents of `/Volumes/databricks_arrow_cata/main/pdf_ai/input_urls/pdf_input.txt` (canonical path only — never `pdf_urls.txt`); write `READ_INPUT_FILE` audit row
-- [ ] T017 [US1] In `01_load_urls.py`, extract URLs from plain `http(s)` lines AND from HTML anchor tags via `href`, then clean/normalize (strip trailing `, ; ) (` and whitespace) using `databricks/lib/pipeline_common.py`; write `CLEAN_URLS` audit row
-- [ ] T018 [US1] In `01_load_urls.py`, validate URL format, deduplicate exact cleaned URLs (first → `NEW`, later exact dup → `SKIPPED_DUPLICATE`), mark unparseable lines `INVALID_URL`, and derive `source_file_name` / `supplier_folder` / `url_part_hint` (hint stays metadata-only — never promoted to `part_number`)
-- [ ] T019 [US1] In `01_load_urls.py`, insert rows into `databricks_arrow_cata.main.pdf_input_urls` preserving `source_url`, setting `created_at`/`updated_at`; guard against duplicate control-table inserts on re-run (idempotent by `cleaned_url`); write `INSERT_CONTROL_TABLE` audit row
-- [ ] T020 [US1] Create `databricks/sql/checks/04_urls_check.sql` and run via MCP: status counts by `input_status`, zero duplicate `NEW` `cleaned_url`, and a sample showing populated metadata (SC-001, SC-002)
+- [X] T016 [US1] Create notebook `databricks/notebooks/01_load_urls.py` that reads the full contents of `/Volumes/databricks_arrow_cata/main/pdf_ai/input_urls/pdf_input.txt` (canonical path only — never `pdf_urls.txt`); write `READ_INPUT_FILE` audit row
+- [X] T017 [US1] In `01_load_urls.py`, extract URLs from plain `http(s)` lines AND from HTML anchor tags via `href`, then clean/normalize (strip trailing `, ; ) (` and whitespace) using `databricks/lib/pipeline_common.py`; write `CLEAN_URLS` audit row
+- [X] T018 [US1] In `01_load_urls.py`, validate URL format, deduplicate exact cleaned URLs (first → `NEW`, later exact dup → `SKIPPED_DUPLICATE`), mark unparseable lines `INVALID_URL`, and derive `source_file_name` / `supplier_folder` / `url_part_hint` (hint stays metadata-only — never promoted to `part_number`)
+- [X] T019 [US1] In `01_load_urls.py`, insert rows into `databricks_arrow_cata.main.pdf_input_urls` preserving `source_url`, setting `created_at`/`updated_at`; guard against duplicate control-table inserts on re-run (idempotent by `cleaned_url`); write `INSERT_CONTROL_TABLE` audit row
+- [X] T020 [US1] Create `databricks/sql/checks/04_urls_check.sql` and run via MCP: status counts by `input_status`, zero duplicate `NEW` `cleaned_url`, and a sample showing populated metadata (SC-001, SC-002)
 
 **Checkpoint**: Control table populated & deduplicated. Stop & validate before US2.
 
